@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: family-server
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: family-server
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+        config.linkerd.io/proxy-log-level: debug
+      labels:
+        app.kubernetes.io/name: family-server
+    spec:
+      containers:
+        - image: ghcr.io/alpeb/family-server:v1
+          name: family-server
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+
